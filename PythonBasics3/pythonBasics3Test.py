@@ -39,6 +39,12 @@ class TestPythonBasicsOne(unittest.TestCase):
 
         # Please add three more test cases following the order above
 
+        self.assertEqual(pythonBasics3.multiple_words(" I like food "), True)
+
+        self.assertEqual(pythonBasics3.multiple_words("Do-not"), False)
+
+        self.assertEqual(pythonBasics3.multiple_words("Today is a sunny day"), True)
+
 
 #Test case for reserved_us_tld
     def test_reserved_us_tld(self):
