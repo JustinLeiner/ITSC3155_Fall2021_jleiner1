@@ -7,15 +7,19 @@
 # import regular expression module
 import re
 
+
 # # Part A. starts_with_non_number
 # Define a function starts_with_non_number(s) that takes a string and returns true
 # if it starts with anything that isn't a number and false otherwise.
 # (For our purposes, a number is any character that is 0,1,2,3,4,5,6,7,8, or 9.)
 # Note: Be sure to use RegEx!
 def starts_with_non_number(s):
-  # YOUR CODE HERE
+    x = re.match("[^0-9]", s)
+    if x:
+        return True
+    else:
+        return False
 
-  return
 
 # # Part B. multiple_words
 # Define a function multiple_words(s) that takes a string and returns true
@@ -24,9 +28,9 @@ def starts_with_non_number(s):
 # Note: Be sure to use RegEx and that it works for any whitespace character 
 # with at least one character on either side!
 def multiple_words(s):
-  # YOUR CODE HERE
 
-  return
+
+    return
 
 
 # Part C. reserved_us_tld
@@ -37,6 +41,6 @@ def multiple_words(s):
 # Note: URLs will be in the format http://www.example.com. There will not be anything after the TLD
 # Hint: the URL should start with https and end with one of the TLDs
 def reserved_us_tld(s):
-  # YOUR CODE HERE
-  
-  return
+    # YOUR CODE HERE
+
+    return
