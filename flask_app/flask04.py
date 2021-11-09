@@ -24,31 +24,32 @@ with app.app_context():
 # @app.route is a decorator. It gives the function "index" special powers.
 # In this case it makes it so anyone going to "your-url/" makes this function
 # get called. What it returns is what is shown as the web page
+@app.route('/')
 @app.route('/index')
 def index():
-    a_user = db.session.query(User).filter_by(email='jleiner1@uncc.edu')
-
+    a_user = db.session.query(User).filter_by(email='jleiner1@uncc.edu').one()
     return render_template('index.html', user = a_user)
 
 @app.route('/notes')
 def get_notes():
-    a_user = db.session.query(User).filter_by(email='jleiner1@uncc.edu')
-    my_notes= db.session.query(Note).all()
+    a_user = db.session.query(User).filter_by(email='jleiner1@uncc.edu').one()
+    my_notes = db.session.query(Note).all()
 
-    return render_template('notes.html', notes = notes, user = a_user)
+    return render_template('notes.html', notes = my_notes, user = a_user)
 
 @app.route('/notes/<note_id>')
 def get_note(note_id):
     
-    a_user = db.session.query(User).filter_by(email='jleiner1@uncc.edu')
+    a_user = db.session.query(User).filter_by(email='jleiner1@uncc.edu').one()
+    print(a_user)
+    my_note = db.session.query(Note).filter_by(id=note_id).one()
 
-    my_note = db.session.query(Note).filter_by(id=note_id)
+    print(my_note)
 
-    return render_template('note.html', note = notes[int(note_id)], user = a_user)
+    return render_template('note.html', note = my_note, user = a_user)
 
 @app.route('/notes/new', methods=['GET', 'POST'])
 def new_note():
-    a_user = {'name': 'Justin', 'email':'jleiner1@uncc.edu'}
 
     if request.method == 'POST':
         
@@ -69,10 +70,10 @@ def new_note():
         db.session.add(new_record)
         db.session.commit()
 
-        return redirect(url_for('get_notes', name = a_user))
+        return redirect(url_for('get_notes'))
     else:
 
-        a_user = db.session.query(User).filter_by(email='jleiner1@uncc.edu')
+        a_user = db.session.query(User).filter_by(email='jleiner1@uncc.edu').one()
         return render_template('new.html', user = a_user)
 
 app.run(host=os.getenv('IP', '127.0.0.1'),port=int(os.getenv('PORT', 5000)),debug=True)
