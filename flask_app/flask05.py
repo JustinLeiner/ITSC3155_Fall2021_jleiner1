@@ -48,6 +48,15 @@ def get_note(note_id):
 
     return render_template('note.html', note = my_note, user = a_user)
 
+@app.route('/notes/edit/<note_id>')
+def update_ote(note_id):
+
+    a_user = db.session.query(User).filter_by(email='jleiner1@uncc.edu').one()
+
+    my_note = db.session.query(Note).filter_by(id=note_id).one()
+
+    return render_template('new.html', note = my_note, user = a_user)
+
 @app.route('/notes/new', methods=['GET', 'POST'])
 def new_note():
 
