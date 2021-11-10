@@ -1,7 +1,8 @@
 # FLASK Tutorial 1 -- We show the bare bones code to get an app up and running
 
 # imports
-import os                 # os is used to get environment variables IP & PORT  # Flask is the web app that we will customize
+import os
+import re                 # os is used to get environment variables IP & PORT  # Flask is the web app that we will customize
 from flask import Flask 
 from flask import render_template
 from flask import request
@@ -41,21 +42,40 @@ def get_notes():
 def get_note(note_id):
     
     a_user = db.session.query(User).filter_by(email='jleiner1@uncc.edu').one()
-    print(a_user)
+   
     my_note = db.session.query(Note).filter_by(id=note_id).one()
-
-    print(my_note)
 
     return render_template('note.html', note = my_note, user = a_user)
 
-@app.route('/notes/edit/<note_id>')
-def update_ote(note_id):
+@app.route('/notes/edit/<note_id>', methods=['GET', 'POST'])
+def update_note(note_id):
 
-    a_user = db.session.query(User).filter_by(email='jleiner1@uncc.edu').one()
+    # check method used for request
+    if request.method == 'POST':
 
-    my_note = db.session.query(Note).filter_by(id=note_id).one()
+        #get title data
+        title = request.form['title']
 
-    return render_template('new.html', note = my_note, user = a_user)
+        #get note data
+        text = request.form['noteText']
+        note = db.session.query(Note).filter_by(id=note_id).one()
+
+        #update note data
+        note.title = title
+        note.text = text
+        
+        #update note in DB
+        db.session.add(note)
+        db.session.commit()
+
+        return redirect(url_for('get_notes'))
+    else:
+
+        a_user = db.session.query(User).filter_by(email='jleiner1@uncc.edu').one()
+
+        my_note = db.session.query(Note).filter_by(id=note_id).one()
+
+        return render_template('new.html', note = my_note, user = a_user)
 
 @app.route('/notes/new', methods=['GET', 'POST'])
 def new_note():
