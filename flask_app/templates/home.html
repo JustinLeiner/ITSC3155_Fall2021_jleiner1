@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+    <meta charset="utf-8">
+    <meta name="description" content="Shark Questions">
+    <title>Shark Questions</title>
+    <!-- styles -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='home.css') }}">
+    </head>
+    <header>
+        <h1>New Sharks Forum</h1>
+    </header>
+    <nav>
+        <a href="home.html">Home</a> ||
+        <a href="login.html">Login</a>
+    </nav>
+    <body>
+        <div>
+        <br>
+        <form action = "{{url_for('new_post')}}">
+        <input type="submit" value = "New post">
+        </form>
+        <br>
+        <table class="question_list">
+            <tr>
+                <th>Title</th>
+                <th>Date</th>
+                <th>User</th>
+            </tr>
+           {% for new_post in home %}
+            <tr>
+                <td><a href="home">{{value.questionTitle}} </td>
+                <td><!--Date--></td>
+                <td><!--User--></td>
+                <td><!--Connect Edit Method/Link, when user clicks on edit it will go to the edit_selected_question.html-->
+                 <!--   <form>
+                        <input type="submit" value="Edit">
+                    </form>
+                </td>
+                <td>Connect Delete Method/Link
+                    <form>
+                        <input type="submit" value="Delete">
+                    </form>
+                </td> -->
+            </tr>
+        {% endfor %} 
+        </table>
+        </div>
+    </body>
+</html>
